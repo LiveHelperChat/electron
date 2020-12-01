@@ -1,4 +1,4 @@
-# Live Helper Chat desktop app written on electron
+# Live Helper Chat desktop app written with electron
 
 It just loads provided back office url. As this is a pure browser without any extensions it gives a better performance than just a browser.
 
