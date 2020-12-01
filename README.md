@@ -2,7 +2,7 @@
 
 It just loads provided back office url. As this is a pure browser without any extensions it gives a better performance than just a browser.
 
-[![Screenshot](https://raw.githubusercontent.com/LiveHelperChat/electron/main/screenshot.png)]
+![Screenshot](https://raw.githubusercontent.com/LiveHelperChat/electron/main/screenshot.png)]
 
 ## To Use
 
