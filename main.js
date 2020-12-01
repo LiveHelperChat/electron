@@ -4,6 +4,17 @@ const path = require('path')
 const prompt = require('electron-prompt');
 const Store = require('./store.js');
 
+const contextMenu = require('electron-context-menu');
+
+contextMenu({
+	showCopyImage: true,
+	showCopyImageAddress: true,
+	showSaveImage: true,
+	showSaveImageAs: true,
+	showSaveLinkAs: true,
+	showInspectElement: true
+});
+
 let mainWindow;
 
 // First instantiate the class
@@ -29,6 +40,7 @@ function createWindow () {
 	height: height,
 	icon: __dirname + '/favicon.ico',
 		webPreferences: {
+		  spellcheck: true,
 		  preload: path.join(__dirname, 'preload.js')
 		}
 	})
