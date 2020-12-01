@@ -2,6 +2,8 @@
 
 It just loads provided back office url. As this is a pure browser without any extensions it gives a better performance than just a browser.
 
+[![Screenshot](https://raw.githubusercontent.com/LiveHelperChat/electron/main/screenshot.png)]
+
 ## To Use
 
 To clone and run this repository you'll need [Git](https://git-scm.com) and [Node.js](https://nodejs.org/en/download/) (which comes with [npm](http://npmjs.com)) installed on your computer. From your command line:
