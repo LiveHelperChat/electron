@@ -1,89 +1,120 @@
 // Modules to control application life and create native browser window
-const {app, BrowserWindow, Menu, globalShortcut} = require('electron')
+const {app, BrowserWindow, Menu, globalShortcut, dialog} = require('electron')
 const path = require('path')
 const prompt = require('electron-prompt');
-
+const Store = require('./store.js');
 
 let mainWindow;
 
-function createWindow () {
-  // Create the browser window.
-  mainWindow = new BrowserWindow({
-    width: 1024,
-    height: 768,
-    webPreferences: {
-      preload: path.join(__dirname, 'preload.js')
-    }
-  })
-  
-globalShortcut.register('f5', function() {
-	mainWindow.reload()
-})
+// First instantiate the class
+const store = new Store({
+  // We'll call our data file 'user-preferences'
+  configName: 'user-preferences',
+  defaults: {
+    // 800x600 is the default size of our window
+	defaultURL: "",
+    windowBounds: { width: 1024, height: 768 }
+  }
+});
 
-globalShortcut.register('CommandOrControl+R', function() {
-	mainWindow.reload()
-})
-	
- prompt({
+
+function createWindow () {
+  
+	let { width, height } = store.get('windowBounds');
+
+	// Create the browser window.
+	mainWindow = new BrowserWindow({
+	backgroundColor: '#2e2c29', 
+	width: width,
+	height: height,
+	icon: __dirname + '/favicon.ico',
+		webPreferences: {
+		  preload: path.join(__dirname, 'preload.js')
+		}
+	})
+ 
+	  
+	globalShortcut.register('f5', function() {
+		mainWindow.reload()
+	})
+
+	globalShortcut.register('CommandOrControl+R', function() {
+		mainWindow.reload()
+	})
+
+	globalShortcut.register('CommandOrControl+Shift+H', function() {
+		prompt({
+			title: 'Enter you back office address',
+			label: 'URL:',
+			icon: __dirname + '/logo.png',
+			value: 'https://demo.livehelperchat.com/index.php/site_admin',
+			inputAttrs: { // attrs to be set if using 'input'
+				type: 'url'
+			},
+			type: 'input', // 'select' or 'input, defaults to 'input'
+		})
+		.then((r) => {
+			if(r === null) {
+				console.log('user cancelled');
+			} else {
+				store.set('defaultURL', r);
+				mainWindow.loadURL(r);
+			}
+		})
+		.catch(console.error);
+	})
+
+	globalShortcut.register('CommandOrControl+H', function() {
+		dialog.showMessageBox({
+			buttons: ["OK"],
+			icon: __dirname + '/logo.png',
+			title : "Live Helper Chat",
+			message: "Change back office URL click Control+Shift+H\nOpen dev tools Control+Shift+J"
+		})
+	})
+
+	globalShortcut.register('CommandOrControl+Shift+J', function() {
+		mainWindow.webContents.openDevTools()
+	})
+
+  // The BrowserWindow class extends the node.js core EventEmitter class, so we use that API
+  // to listen to events on the BrowserWindow. The resize event is emitted when the window size changes.
+  mainWindow.on('resize', () => {
+    // The event doesn't pass us the window size, so we call the `getBounds` method which returns an object with
+    // the height, width, and x and y coordinates.
+    let { width, height } = mainWindow.getBounds();
+    // Now that we have them, save them using the `set` method.
+    store.set('windowBounds', { width, height });
+  });
+  
+  if (store.get('defaultURL') == "")
+  {
+	prompt({
 	title: 'Enter you back office address',
 	label: 'URL:',
+	icon: __dirname + '/logo.png',
 	value: 'https://demo.livehelperchat.com/index.php/site_admin',
 	inputAttrs: { // attrs to be set if using 'input'
-		type: 'url'
-	},
-	type: 'input', // 'select' or 'input, defaults to 'input'
-})
-.then((r) => {
-	if(r === null) {
-		console.log('user cancelled');
-	} else {
-		mainWindow.loadURL(r);
-	}
-})
-.catch(console.error);
-
-  // Open the DevTools.
-  // mainWindow.webContents.openDevTools()
+			type: 'url'
+		},
+		type: 'input', // 'select' or 'input, defaults to 'input'
+	})
+	.then((r) => {
+		if(r === null) {
+			console.log('user cancelled');
+		} else {
+			store.set('defaultURL', r);
+			mainWindow.loadURL(r);
+		}
+	})
+	.catch(console.error);
+  } else {
+  	  mainWindow.loadURL(store.get('defaultURL'));
+  }
 }
 
 function createMainMenu() {
-  const template = [
-    {
-      label: "Menu",
-      submenu: [
-        {
-          label: "Go to back office",
-          click() {
-            prompt({
-				title: 'Enter you back office address',
-				label: 'URL:',
-				value: 'https://demo.livehelperchat.com/index.php/site_admin',
-				inputAttrs: { // attrs to be set if using 'input'
-					type: 'url'
-				},
-				type: 'input', // 'select' or 'input, defaults to 'input'
-			})
-			.then((r) => {
-				if(r === null) {
-					console.log('user cancelled');
-				} else {
-					mainWindow.loadURL(r);
-				}
-			})
-			.catch(console.error);
-          }
-        },
-		{
-          label: "Dev tools",
-          click() {
-            mainWindow.webContents.openDevTools()
-          }
-        }
-      ]
-    }
-  ];
-  const menu = Menu.buildFromTemplate(template);
-  Menu.setApplicationMenu(menu);
+  Menu.setApplicationMenu(null);
 }
 
 
