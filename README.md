@@ -2,6 +2,8 @@
 
 It just loads provided back office url. As this is a pure browser without any extensions it gives a better performance than just a browser.
 
+To change back office URL click `CTRL+h`
+
 ![Screenshot](https://raw.githubusercontent.com/LiveHelperChat/electron/main/screenshot.png)
 
 ## To Use
