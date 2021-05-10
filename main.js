@@ -1,5 +1,5 @@
 // Modules to control application life and create native browser window
-const {app, BrowserWindow, Menu, globalShortcut, dialog} = require('electron')
+const {app, BrowserWindow, Menu, globalShortcut, dialog, shell} = require('electron')
 const path = require('path')
 const prompt = require('electron-prompt');
 const Store = require('./store.js');
@@ -14,7 +14,7 @@ contextMenu({
 	showSaveLinkAs: true,
 	showInspectElement: true
 });
-
+ 
 let mainWindow;
 
 // First instantiate the class
@@ -44,8 +44,19 @@ function createWindow () {
 		  preload: path.join(__dirname, 'preload.js')
 		}
 	})
- 
-	  
+	
+	const webContents = mainWindow.webContents;
+  
+	var handleRedirect = (e, url) => {
+		if (require('url').parse(url).hostname != require('url').parse(webContents.getURL()).hostname ) {
+			e.preventDefault()
+			require('electron').shell.openExternal(url)
+		}
+	}
+
+	webContents.on('will-navigate', handleRedirect)
+	webContents.on('new-window', handleRedirect)
+
 	globalShortcut.register('f5', function() {
 		mainWindow.reload()
 	})
@@ -123,6 +134,9 @@ function createWindow () {
   } else {
   	  mainWindow.loadURL(store.get('defaultURL'));
   }
+  
+  
+  
 }
 
 function createMainMenu() {

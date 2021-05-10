@@ -1,11 +1,11 @@
 {
-  "name": "electron-quick-start",
-  "version": "1.0.0",
-  "description": "A minimal Electron application",
+  "name": "Live-Helper-Chat",
+  "version": "1.2.2",
+  "description": "Live Helper Chat desktop application",
   "main": "main.js",
   "scripts": {
-	"start": "electron .",
-	"build": "electron-packager . --icon=./favicon.ico --platform=win32 --overwrite --arch=x64 lhc"
+    "start": "electron .",
+    "build": "electron-packager . --appCopyright=\"Live Helper Chat 2021\" --win32metadata.LegalCopyright=\"Live Helper Chat desktop client.\" --win32metadata.FileDescription=\"Live Helper Chat desktop client.\" --win32metadata.ProductName=\"Live Helper Chat\" --win32metadata.CompanyName=\"Live Helper Chat\" --icon=./favicon.ico --platform=win32 --overwrite --arch=x64 \"Live Helper Chat\""
   },
   "repository": "https://github.com/electron/electron-quick-start",
   "keywords": [
@@ -15,13 +15,13 @@
     "tutorial",
     "demo"
   ],
-  "author": "GitHub",
+  "author": "Live Helper Chat",
   "license": "CC0-1.0",
   "devDependencies": {
-    "electron": "^11.0.3"
+    "electron": "^11.4.6"
   },
   "dependencies": {
-    "electron-context-menu": "^2.3.0",
-    "electron-prompt": "^1.6.0"
+    "electron-context-menu": "^2.5.2",
+    "electron-prompt": "^1.6.2"
   }
 }
