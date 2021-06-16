@@ -2,7 +2,9 @@
 
 It just loads provided back office url. As this is a pure browser without any extensions it gives a better performance than just a browser.
 
-To change back office URL click `CTRL+h`
+To open the shortcut menu click `CTRL+h`
+To change back office URL click `CTRL+SHIFT+h`
+To open the dev tools click `CTRL+SHIFT+j`
 
 ![Screenshot](https://raw.githubusercontent.com/LiveHelperChat/electron/main/screenshot.png)
 
@@ -12,7 +14,7 @@ To clone and run this repository you'll need [Git](https://git-scm.com) and [Nod
 
 ```bash
 # Clone this repository
-git clone https://github.com/electron/electron-quick-start
+git clone https://github.com/LiveHelperChat/electron.git
 # Go into the repository
 cd electron-quick-start
 # Install dependencies
