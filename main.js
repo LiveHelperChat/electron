@@ -1,10 +1,11 @@
 // Modules to control application life and create native browser window
-const {app, BrowserWindow, Menu, globalShortcut, dialog, shell} = require('electron')
+const {app, BrowserWindow, Menu, MenuItem, dialog, shell} = require('electron')
 const path = require('path')
 const prompt = require('electron-prompt');
 const Store = require('./store.js');
 
 const contextMenu = require('electron-context-menu');
+const electronLocalshortcut = require('electron-localshortcut');
 
 contextMenu({
 	showCopyImage: true,
@@ -57,16 +58,16 @@ function createWindow () {
 	webContents.on('will-navigate', handleRedirect)
 	webContents.on('new-window', handleRedirect)
 
-	globalShortcut.register('f5', function() {
-		mainWindow.reload()
+	electronLocalshortcut.register(mainWindow,'f5', function() {
+		mainWindow.isFocused() && mainWindow.reload();
 	})
 
-	globalShortcut.register('CommandOrControl+R', function() {
-		mainWindow.reload()
+	electronLocalshortcut.register(mainWindow,'Ctrl+R', function() {
+		mainWindow.isFocused() && mainWindow.reload()
 	})
 
-	globalShortcut.register('CommandOrControl+Shift+H', function() {
-		prompt({
+	electronLocalshortcut.register(mainWindow,'Ctrl+Shift+H', function() {
+		mainWindow.isFocused() && prompt({
 			title: 'Enter you back office address',
 			label: 'URL:',
 			icon: __dirname + '/logo.png',
@@ -87,8 +88,8 @@ function createWindow () {
 		.catch(console.error);
 	})
 
-	globalShortcut.register('CommandOrControl+H', function() {
-		dialog.showMessageBox({
+	electronLocalshortcut.register(mainWindow,'Ctrl+H', function() {
+		mainWindow.isFocused() && dialog.showMessageBox({
 			buttons: ["OK"],
 			icon: __dirname + '/logo.png',
 			title : "Live Helper Chat",
@@ -96,8 +97,8 @@ function createWindow () {
 		})
 	})
 
-	globalShortcut.register('CommandOrControl+Shift+J', function() {
-		mainWindow.webContents.openDevTools()
+	electronLocalshortcut.register(mainWindow,'Ctrl+Shift+J', function() {
+		mainWindow.isFocused() && mainWindow.webContents.openDevTools()
 	})
 
   // The BrowserWindow class extends the node.js core EventEmitter class, so we use that API
@@ -134,9 +135,6 @@ function createWindow () {
   } else {
   	  mainWindow.loadURL(store.get('defaultURL'));
   }
-  
-  
-  
 }
 
 function createMainMenu() {

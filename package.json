@@ -1,6 +1,6 @@
 {
   "name": "Live-Helper-Chat",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "Live Helper Chat desktop application",
   "main": "main.js",
   "scripts": {
@@ -18,10 +18,12 @@
   "author": "Live Helper Chat",
   "license": "CC0-1.0",
   "devDependencies": {
-    "electron": "^11.4.6"
+    "electron": "^16.0.2",
+    "electron-packager": "^15.4.0"
   },
   "dependencies": {
     "electron-context-menu": "^2.5.2",
+    "electron-localshortcut": "^3.2.1",
     "electron-prompt": "^1.6.2"
   }
 }
