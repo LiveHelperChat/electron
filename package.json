@@ -18,7 +18,7 @@
   "author": "Live Helper Chat",
   "license": "CC0-1.0",
   "devDependencies": {
-    "electron": "^30.0.06",
+    "electron": "^35.0.1",
     "electron-packager": "^17.1.2"
   },
   "dependencies": {
