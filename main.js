@@ -58,7 +58,7 @@ function createWindow () {
 	webContents.on('will-navigate', handleRedirect)
 	webContents.on('new-window', handleRedirect)
 
-	electronLocalshortcut.register(mainWindow,'f5', function() {
+	electronLocalshortcut.register(mainWindow,'F5', function() {
 		mainWindow.isFocused() && mainWindow.reload();
 	})
 
